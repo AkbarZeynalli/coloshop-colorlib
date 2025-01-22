@@ -9,18 +9,18 @@ import { addBasket } from "../../redux/features/Basket";
 import { FaHeart } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { addWish, deleteWish } from "../../redux/features/Wishlist";
+import { useNavigate } from "react-router";
+
 function BasicExample() {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
 
-  // useEffect(() => {
-  //   dispatch(getData());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getData());
+  }, [dispatch]);
 
   const addToBasket = (e, product) => {
     e.stopPropagation();
-    console.log(product);
-
     dispatch(addBasket(product));
   };
 
@@ -37,6 +37,11 @@ function BasicExample() {
   const removeFromWish = (e, product) => {
     e.stopPropagation();
     dispatch(deleteWish(product));
+  };
+
+  const navigate = useNavigate();
+  const handleCardClick = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -58,19 +63,23 @@ function BasicExample() {
             <div className="col-4" key={product._id}>
               {heart ? (
                 <FaHeart
-                  style={{ color: "red" }}
+                  style={{ color: "red", cursor: "pointer" }}
                   onClick={(e) => {
                     toggle(), removeFromWish(e, product);
                   }}
                 />
               ) : (
                 <CiHeart
+                  style={{ cursor: "pointer" }}
                   onClick={(e) => {
                     toggle(), addToWish(e, product);
                   }}
                 />
               )}
-              <Card style={{ width: "18rem" }}>
+              <Card
+                style={{ width: "18rem", cursor: "pointer" }}
+                onClick={() => handleCardClick(product._id)}
+              >
                 <Card.Img variant="top" src={product.image} />
                 <Card.Body>
                   <Card.Text
@@ -93,13 +102,14 @@ function BasicExample() {
                     <span>$40 </span>
                     <span>${product.price}</span>
                   </Card.Text>
-                  <button
+                  <Button
                     onClick={(e) => {
                       addToBasket(e, product);
                     }}
+                    variant="primary"
                   >
                     Add to cart
-                  </button>
+                  </Button>
                 </Card.Body>
               </Card>
             </div>

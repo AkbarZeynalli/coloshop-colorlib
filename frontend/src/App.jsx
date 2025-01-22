@@ -10,6 +10,7 @@ import Promotion from "./page/Promotion";
 import Shop from "./page/Shop";
 import Wishlist from "./page/Wishlist";
 import Admin from "./page/Admin";
+import ProductDetailPage from "./page/ProductDetail";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -41,7 +42,10 @@ const App = () => {
           path: "/blog",
           element: <Blog />,
         },
-
+        {
+          path: "/product/:id",
+          element: <ProductDetailPage />,
+        },
         {
           path: "/contact",
           element: <Contact />,
